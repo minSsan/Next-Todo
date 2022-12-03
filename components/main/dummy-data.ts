@@ -1,4 +1,6 @@
-export const todosDummy = [
+import { TodoProps } from "../todo/Todo";
+
+export const todosDummy: TodoProps[] = [
   {
     id: 1,
     title: "밥먹기",

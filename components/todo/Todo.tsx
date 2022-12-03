@@ -1,16 +1,22 @@
 import React from "react";
 import styles from "./Todo.module.css";
 
-interface Todo {
+export interface TodoProps {
+  id: number;
   title: string;
   subtitle?: string;
 }
 
-const Todo = (data: Todo) => {
-  const { title, subtitle } = data;
+interface Props {
+  todo: TodoProps;
+  handleRemoveClick: () => any;
+}
+
+const Todo = ({ todo, handleRemoveClick }: Props) => {
   return (
     <div className={styles.todoContainer}>
-      <h1>{title}</h1>
+      <h1>{todo.title}</h1>
+      <button onClick={handleRemoveClick}>삭제하기</button>
     </div>
   );
 };

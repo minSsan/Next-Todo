@@ -1,2 +1,7 @@
 .todoContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.root {
 }
