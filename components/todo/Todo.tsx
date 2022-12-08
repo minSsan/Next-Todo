@@ -2,9 +2,10 @@ import React from "react";
 import styles from "./Todo.module.css";
 
 export interface TodoProps {
+  userId: number;
   id: number;
   title: string;
-  contents?: string;
+  completed: boolean;
 }
 
 interface Props {
@@ -12,14 +13,12 @@ interface Props {
 }
 
 const Todo = ({ todo }: Props) => {
-  console.log("TODO rendered");
   return (
-    <div className={styles.todoContainer}>
-      <div>
-        <h1>제목: {todo.title}</h1>
-        <h4>내용: {todo.contents}</h4>
-      </div>
-    </div>
+    <>
+      {/* //? TODO 상세정보 페이지에 들어갈 컴포넌트 */}
+      {/* 제목 | 내용 */}
+      {/* 수정하기 | 삭제하기 버튼 */}
+    </>
   );
 };
 
