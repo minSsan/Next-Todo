@@ -20,15 +20,17 @@ function TodoList({ todos }: Props) {
       {/* //? TODO를 리스트로 나열하여 출력하는 컴포넌트 */}
       {todos.map((todo, index) => (
         <>
-          <span className={styles.todoContainer}>
-            <input
-              id={todo.id.toString()}
-              type={"checkbox"}
-              checked={todo.completed}
-              onClick={handleCheckClick}
-            />
-            <h1>{todo.title}</h1>
-          </span>
+          <Link href={`/todos/${todo.id}`}>
+            <div className={styles.todoContainer}>
+              <input
+                id={todo.id.toString()}
+                type={"checkbox"}
+                checked={todo.completed}
+                onClick={handleCheckClick}
+              />
+              <h1>{todo.id}</h1>
+            </div>
+          </Link>
         </>
       ))}
     </div>
