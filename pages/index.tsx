@@ -1,3 +1,4 @@
+import { GetStaticProps } from "next";
 import Head from "next/head";
 import { Layout } from "../components/Layout";
 import Main from "../components/main/Main";

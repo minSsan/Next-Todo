@@ -1,52 +1,43 @@
-import { GetStaticPaths, GetStaticProps } from "next";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import React from "react";
 import { TodoProps } from "../../components/todo/Todo";
-import { Inputs } from "../../components/todoForm/TodoForm";
 
-const Todo = () => {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const [todoData, setTodoData] = useState<TodoProps>();
-
-  //   useEffect(() => {
-  //     const todos: TodoProps[] = JSON.parse(localStorage.getItem("todos") ?? "[]")
-  //     const todoData: TodoProps = todos.filter((todo) => todo.id === parseInt(id))
-  //   }, []);
-
-  useLayoutEffect(() => {
-    const todos: TodoProps[] = JSON.parse(
-      localStorage.getItem("todos") ?? "[]"
-    );
-
-    setTodoData(
-      todos.find((value) => value.id.toString() === id) ?? {
-        id: 0,
-        title: "잘못된 todo 정보입니다",
-        contents: "잘못된 todo 정보입니다",
-      }
-    );
-  }, []);
-
+const Todo = ({ todo }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
-      <h1>TODO {id}</h1>
-      <h3>할 일: {todoData?.title}</h3>
-      <h2>Content</h2>
-      <h3>내용: {todoData?.contents}</h3>
-
-      <Link href={"/"}>
-        <button>홈으로</button>
-      </Link>
+      {/* //? todo의 상세 정보 페이지 */}
+      {/* TODO 컴포넌트 배치 */}
+      {todo.id}
     </>
   );
 };
 
 export default Todo;
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const todos: TodoProps[] = await fetch(
+    "https://jsonplaceholder.typicode.com/todos"
+  ).then((res) => res.json());
+
+  console.log("====== todos ======");
+  console.log(todos);
+
+  const params = todos.map((todo) => ({ params: { id: todo.id.toString() } }));
+
+  return {
+    paths: params,
+    fallback: true,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const todo: TodoProps = await fetch(
+    `https://jsonplaceholder.typicode.com/todos/${params.id}`
+  ).then((res) => res.json());
+
+  console.log(todo);
+
+  return {
+    props: { todo },
+  };
+};
