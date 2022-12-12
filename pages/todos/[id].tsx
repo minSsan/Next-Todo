@@ -1,28 +1,30 @@
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
-import React from "react";
-import { TodoProps } from "../../components/todo/Todo";
+import {
+  GetStaticPaths,
+  GetStaticPathsResult,
+  GetStaticProps,
+  InferGetStaticPropsType,
+} from "next";
+import React, { useState } from "react";
+import Post, { PostProps } from "../../components/post/Post";
 
-const Todo = ({ todo }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const PostPage = ({ post }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       {/* //? todo의 상세 정보 페이지 */}
       {/* TODO 컴포넌트 배치 */}
-      {todo.id}
+      <Post post={post} />
     </>
   );
 };
 
-export default Todo;
+export default PostPage;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const todos: TodoProps[] = await fetch(
-    "https://jsonplaceholder.typicode.com/todos"
+  const posts: PostProps[] = await fetch(
+    "https://jsonplaceholder.typicode.com/posts"
   ).then((res) => res.json());
 
-  console.log("====== todos ======");
-  console.log(todos);
-
-  const params = todos.map((todo) => ({ params: { id: todo.id.toString() } }));
+  const params = posts.map((post) => ({ params: { id: post.id.toString() } }));
 
   return {
     paths: params,
@@ -31,13 +33,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const todo: TodoProps = await fetch(
-    `https://jsonplaceholder.typicode.com/todos/${params.id}`
+  const post: PostProps = await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${params.id}`
   ).then((res) => res.json());
 
-  console.log(todo);
-
   return {
-    props: { todo },
+    props: { post },
   };
 };
